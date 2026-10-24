@@ -1,0 +1,327 @@
+@import "tailwindcss";
+
+/* Font Ubuntu (lisensi: public/fonts/UBUNTU-FONT-LICENSE.txt), disajikan dari domain sendiri. */
+@font-face { font-family: 'Ubuntu'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/ubuntu-400.woff') format('woff'); }
+@font-face { font-family: 'Ubuntu'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/ubuntu-500.woff') format('woff'); }
+@font-face { font-family: 'Ubuntu Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/ubuntu-mono-400.woff') format('woff'); }
+
+/*
+ * Design tokens diambil dari Apeiron-portal (frontend/src/styles/tokens.css & base.css,
+ * commit 5bb7c8e). Satu warna brand (#2563eb), netral memikul tampilan, radius 10px,
+ * tinggi kontrol 40px, bayangan nyaris tak terlihat, field tanpa bayangan.
+ * Font: Ubuntu. Bobot dibatasi 400/500 (Ubuntu tidak punya 600; 500 dipakai sebagai "semibold").
+ */
+:root {
+  --n-0: #ffffff;
+  --n-25: #fcfcfd;
+  --n-50: #f9fafb;
+  --n-100: #f2f4f7;
+  --n-200: #e4e7ec;
+  --n-300: #d0d5dd;
+  --n-400: #98a2b3;
+  --n-500: #667085;
+  --n-600: #475467;
+  --n-700: #344054;
+  --n-800: #1d2939;
+  --n-900: #101828;
+
+  --brand: #2563eb;
+  --brand-hover: #1d4ed8;
+  --brand-active: #1e40af;
+  --brand-soft: #eff4ff;
+  --brand-border: #b9d0fd;
+  --brand-ink: #1e40af;
+
+  --ok: var(--brand);
+  --ok-soft: var(--brand-soft);
+  --ok-border: var(--brand-border);
+  --warn: #b54708;
+  --warn-soft: #fffaeb;
+  --warn-border: #fedf89;
+  --err: #b42318;
+  --err-soft: #fef3f2;
+  --err-border: #fecdca;
+  --info: #175cd3;
+  --info-soft: #eff8ff;
+  --info-border: #b2ddff;
+
+  --bg-page: var(--n-50);
+  --bg-surface: var(--n-0);
+  --bg-subtle: var(--n-50);
+  --bg-hover: var(--n-100);
+  --bg-overlay: rgba(16, 24, 40, 0.5);
+  --border: #eceff4;
+  --border-strong: #dde2ea;
+
+  --text-heading: var(--n-900);
+  --text-body: var(--n-700);
+  --text-muted: var(--n-500);
+  --text-faint: var(--n-400);
+  --text-inverse: var(--n-0);
+
+  --font-sans: 'Ubuntu', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Ubuntu Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --fs-h1: 1.375rem;
+  --fs-h2: 1.125rem;
+  --fs-h3: 1rem;
+  --fs-body: 0.9375rem;
+  --fs-label: 0.875rem;
+  --fs-caption: 0.8125rem;
+  --fs-micro: 0.75rem;
+  --lh-tight: 1.25;
+  --lh-snug: 1.45;
+  --lh-normal: 1.6;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 500;
+  --tracking-tight: -0.011em;
+  --tracking-wide: 0.04em;
+
+  --r: 10px;
+  --r-sm: 8px;
+  --r-pill: 999px;
+  --h-control: 40px;
+  --h-control-sm: 34px;
+  --h-control-lg: 46px;
+
+  --sh-card: 0 1px 3px rgba(16, 24, 40, 0.022);
+  --sh-pop: 0 4px 14px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.025);
+
+  --sidebar-w: 248px;
+  --topbar-h: 60px;
+  --content-max: none; /* konten selebar layar (tanpa celah kiri-kanan di monitor besar) */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 160ms;
+  --z-dropdown: 100;
+  --z-sidebar: 200;
+  --z-modal: 400;
+  --z-toast: 500;
+}
+
+@theme inline {
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-heading: var(--text-heading);
+  --color-body: var(--text-body);
+  --color-muted: var(--text-muted);
+  --color-faint: var(--text-faint);
+  --color-surface: var(--bg-surface);
+  --color-subtle: var(--bg-subtle);
+  --color-line: var(--border);
+  --color-err: var(--err);
+  --color-warn: var(--warn);
+  --radius-ui: var(--r);
+}
+
+.tone-neutral { --tone-fg: var(--n-600); --tone-bg: var(--n-100); --tone-border: var(--n-200); }
+.tone-brand, .tone-ok { --tone-fg: var(--brand-ink); --tone-bg: var(--brand-soft); --tone-border: var(--brand-border); }
+.tone-warn { --tone-fg: var(--warn); --tone-bg: var(--warn-soft); --tone-border: var(--warn-border); }
+.tone-err { --tone-fg: var(--err); --tone-bg: var(--err-soft); --tone-border: var(--err-border); }
+.tone-info { --tone-fg: var(--info); --tone-bg: var(--info-soft); --tone-border: var(--info-border); }
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    line-height: var(--lh-normal);
+    font-weight: var(--fw-regular);
+    color: var(--text-body);
+    background: var(--bg-page);
+    -webkit-font-smoothing: antialiased;
+    font-variant-numeric: tabular-nums;
+  }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  /* Scrollbar tipis biru: tetap bisa digulir, nyaris tak terlihat. */
+  *::-webkit-scrollbar { width: 3px; height: 3px; }
+  *::-webkit-scrollbar-track { background: transparent; }
+  *::-webkit-scrollbar-thumb { background: rgba(37, 99, 235, 0.35); border-radius: 999px; }
+  *::-webkit-scrollbar-thumb:hover { background: rgba(37, 99, 235, 0.6); }
+  *::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { text-decoration: none; }
+  h1, h2, h3, h4 {
+    color: var(--text-heading);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--tracking-tight);
+    margin: 0;
+  }
+  h1 { font-size: var(--fs-h1); }
+  h2 { font-size: var(--fs-h2); }
+  h3 { font-size: var(--fs-h3); }
+  p { margin: 0; }
+  strong, b { font-weight: var(--fw-medium); }
+  /* Fokus keyboard: satu garis tegas, bukan glow. */
+  :focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; border-radius: var(--r-sm); }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+}
+
+/* Firefox (tanpa ::-webkit-scrollbar): pakai properti standar. Chrome/Edge memakai gaya 3px di @layer base. */
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: thin; scrollbar-color: rgba(37, 99, 235, 0.35) transparent; }
+}
+
+@layer components {
+  .text-caption { font-size: var(--fs-caption); color: var(--text-muted); line-height: var(--lh-snug); }
+  .text-label { font-size: var(--fs-label); font-weight: var(--fw-medium); color: var(--text-heading); }
+  .text-overline { font-size: var(--fs-micro); font-weight: var(--fw-medium); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-muted); }
+  .text-mono { font-family: var(--font-mono); font-size: var(--fs-label); word-break: break-all; }
+
+  .card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--sh-card); min-width: 0; }
+  .card .card { box-shadow: none; }
+  .card-header {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    min-height: 58px; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border);
+  }
+  .card-body { padding: 1.25rem; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    height: var(--h-control); padding: 0 1rem; border: 1px solid transparent; border-radius: var(--r);
+    font-size: var(--fs-body); font-weight: var(--fw-medium); white-space: nowrap; cursor: pointer;
+    text-decoration: none; background: none;
+    transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .btn:hover { text-decoration: none; }
+  .btn:disabled, .btn[aria-disabled='true'] { opacity: 0.5; cursor: not-allowed; }
+  .btn-primary { background: var(--brand); border-color: var(--brand); color: var(--text-inverse); }
+  .btn-primary:hover:not(:disabled) { background: var(--brand-hover); border-color: var(--brand-hover); }
+  .btn-primary:active:not(:disabled) { background: var(--brand-active); border-color: var(--brand-active); }
+  .btn-secondary { background: var(--bg-surface); border-color: var(--border-strong); color: var(--text-body); box-shadow: var(--sh-card); }
+  .btn-secondary:hover:not(:disabled) { background: var(--bg-subtle); border-color: var(--n-300); color: var(--text-heading); }
+  .btn-secondary:active:not(:disabled) { background: var(--bg-hover); box-shadow: none; }
+  .btn-ghost { background: transparent; color: var(--text-muted); }
+  .btn-ghost:hover:not(:disabled) { background: var(--bg-hover); color: var(--text-heading); }
+  .btn-danger { background: var(--err); border-color: var(--err); color: var(--text-inverse); }
+  .btn-danger:hover:not(:disabled) { background: #912018; border-color: #912018; }
+  .btn-danger-ghost { background: transparent; color: var(--err); }
+  .btn-danger-ghost:hover:not(:disabled) { background: var(--err-soft); }
+  .btn-sm { height: var(--h-control-sm); padding: 0 0.75rem; font-size: var(--fs-label); }
+  .btn-lg { height: var(--h-control-lg); padding: 0 1.25rem; font-size: 1rem; }
+  .btn-icon { width: var(--h-control); padding: 0; flex-shrink: 0; }
+  .btn-icon.btn-sm { width: var(--h-control-sm); }
+  .btn-block { width: 100%; }
+
+  .field { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+  .field-label { font-size: var(--fs-label); font-weight: var(--fw-medium); color: var(--text-heading); }
+  .field-hint { font-size: var(--fs-caption); color: var(--text-muted); }
+  .field-error { font-size: var(--fs-caption); color: var(--err); }
+  .input, .select, .textarea {
+    width: 100%; background: var(--bg-surface); border: 1px solid var(--border-strong); border-radius: var(--r);
+    font-size: var(--fs-body); color: var(--text-heading); box-shadow: none; transition: border-color var(--dur) var(--ease);
+  }
+  .input, .select { height: var(--h-control); padding: 0 0.75rem; }
+  .textarea { min-height: 88px; padding: 0.75rem; line-height: var(--lh-normal); resize: vertical; }
+  .input::placeholder, .textarea::placeholder { color: var(--text-faint); }
+  .input:hover:not(:disabled), .select:hover:not(:disabled), .textarea:hover:not(:disabled) { border-color: var(--n-300); }
+  .input:focus:not(:disabled), .select:focus:not(:disabled), .textarea:focus:not(:disabled) { outline: none; border-color: var(--brand); }
+  .input:focus-visible, .select:focus-visible, .textarea:focus-visible { outline: none; border-color: var(--brand); box-shadow: 0 0 0 1px var(--brand); }
+  .input:disabled, .select:disabled, .textarea:disabled { background: var(--bg-subtle); color: var(--text-muted); cursor: not-allowed; }
+  .input.has-error, .select.has-error, .textarea.has-error { border-color: var(--err); }
+  .select {
+    appearance: none; padding-right: 2rem; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23667085' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 0.75rem center;
+  }
+  .checkbox { width: 16px; height: 16px; accent-color: var(--brand); }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 0.25rem; height: 22px; padding: 0 0.5rem;
+    border-radius: var(--r-sm); font-size: var(--fs-caption); font-weight: var(--fw-medium); white-space: nowrap;
+    background: var(--bg-surface); color: var(--text-body); border: 1px solid var(--border-strong);
+  }
+  /* Warna status hanya pada titik kecil, bukan latar badge. */
+  .badge-dot::before { content: ''; width: 6px; height: 6px; border-radius: var(--r-pill); background: var(--tone-fg, var(--n-400)); flex-shrink: 0; }
+  .badge-dot.tone-neutral::before { background: var(--n-400); }
+
+  /* Tabel: di layar sempit dapat digulir horizontal dan difokus keyboard. */
+  /* position: relative → elemen absolut di dalam tabel (mis. .sr-only) tidak melebarkan halaman. */
+  .table-wrap { position: relative; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; container: table-wrap / inline-size; }
+  .table-wrap:focus-visible { outline-offset: -2px; }
+  .table { width: 100%; min-width: 640px; border-collapse: collapse; font-size: var(--fs-body); }
+  .table thead th {
+    height: 40px; padding: 0 1rem; background: var(--bg-subtle); font-size: var(--fs-caption); font-weight: var(--fw-medium);
+    color: var(--text-muted); text-align: left; white-space: nowrap; border-bottom: 1px solid var(--border);
+  }
+  .table thead th:first-child, .table tbody td:first-child { padding-left: 1.25rem; }
+  .table thead th:last-child, .table tbody td:last-child { padding-right: 1.25rem; }
+  .table tbody td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); color: var(--text-body); vertical-align: middle; }
+  .table tbody tr:hover { background: var(--bg-subtle); }
+  .table tbody tr:last-child td { border-bottom: none; }
+  .table .cell-strong { font-weight: var(--fw-medium); color: var(--text-heading); }
+  .table .num { text-align: right; white-space: nowrap; }
+
+  /* Callout netral: tanpa latar berwarna. Warna hanya untuk error yang bermakna (teks merah). */
+  .alert {
+    display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.75rem 1rem; border-radius: var(--r);
+    font-size: var(--fs-label); line-height: var(--lh-snug);
+    background: var(--bg-subtle); color: var(--text-body); border: 1px solid var(--border);
+  }
+  .alert svg { color: var(--text-muted); flex-shrink: 0; margin-top: 2px; }
+  .alert.tone-err { color: var(--err); }
+  .alert.tone-err svg { color: var(--err); }
+
+  details.disclosure { border: 1px solid var(--border); border-radius: var(--r); background: var(--bg-surface); }
+  details.disclosure > summary {
+    cursor: pointer; padding: 0.75rem 1rem; font-size: var(--fs-label); font-weight: var(--fw-medium); color: var(--text-heading);
+    list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+  }
+  details.disclosure > summary::-webkit-details-marker { display: none; }
+  details.disclosure > summary::after { content: '+'; color: var(--text-muted); font-weight: var(--fw-regular); }
+  details.disclosure[open] > summary::after { content: '−'; }
+  details.disclosure > .disclosure-body { padding: 0 1rem 1rem; font-size: var(--fs-label); color: var(--text-body); }
+
+  .spinner { width: 16px; height: 16px; border-radius: 999px; border: 2px solid currentColor; border-right-color: transparent; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+  .skeleton { border-radius: var(--r-sm); background: linear-gradient(90deg, var(--n-100), var(--n-50), var(--n-100)); background-size: 200% 100%; animation: shimmer 1.4s ease infinite; }
+
+  .page { display: flex; flex-direction: column; gap: 1.25rem; min-width: 0; }
+  .page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .page-head h1 { margin-bottom: 2px; }
+  .control-row { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes shimmer { from { background-position: -200% 0; } to { background-position: 200% 0; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* Tabel bertanda .table-stack (+ direktif v-stack) jadi kartu per baris saat WADAH tabel sempit (< 800px:
+   ponsel, tablet, laptop kecil) — tidak ada kolom terpotong / teks patah per suku kata. Sengaja di luar @layer
+   agar menang atas utilitas tabel (whitespace-nowrap, justify-end) khusus di wadah sempit.
+   .cell-primary = judul kartu, .cell-check = kotak centang di pojok, .cell-actions = tombol di bawah. */
+@container table-wrap (max-width: 799.98px) {
+  .table.table-stack { min-width: 0; display: block; }
+  .table-stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .table-stack tbody { display: block; }
+  .table-stack tbody tr { position: relative; display: flex; flex-direction: column; gap: 0.45rem; padding: 0.9rem 1.25rem; border-bottom: 1px solid var(--border); }
+  .table-stack tbody tr:last-child { border-bottom: 0; }
+  .table.table-stack tbody td {
+    min-width: 0; max-width: none; width: auto; padding: 0; border: 0;
+    text-align: right; overflow-wrap: anywhere; display: flow-root;
+  }
+  .table.table-stack tbody td.whitespace-nowrap { white-space: normal; }
+  /* Label kolom mengapung di kiri; isi sel (teks, badge, beberapa elemen) tetap rata kanan. */
+  .table-stack tbody td::before {
+    content: attr(data-label); float: left; max-width: 45%; margin-right: 1rem; text-align: left;
+    font-family: var(--font-sans); font-size: var(--fs-caption); font-weight: 400; line-height: 1.5rem; color: var(--text-muted);
+  }
+  .table-stack tbody td[data-label='']::before, .table-stack tbody td.cell-primary::before,
+  .table-stack tbody td.cell-actions::before, .table-stack tbody td.cell-check::before { content: none; }
+  .table-stack tbody td:not(.cell-primary) > .flex { justify-content: flex-end; }
+  .table.table-stack tbody td.cell-primary { order: -1; text-align: left; padding-right: 2.25rem; font-size: var(--fs-label); }
+  .table.table-stack tbody td.cell-check { position: absolute; top: 0.85rem; right: 1.25rem; }
+  .table.table-stack tbody td.cell-actions { padding-top: 0.35rem; }
+  .table-stack tbody td.cell-actions > .flex { justify-content: flex-start; flex-wrap: wrap; }
+}
+/* Wadah cukup lebar (tablet / laptop kecil): kartu dua kolom agar ruang tidak terbuang. */
+@container table-wrap (min-width: 600px) and (max-width: 799.98px) {
+  .table-stack tbody { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .table-stack tbody tr:nth-child(odd) { border-right: 1px solid var(--border); }
+  .table-stack tbody tr:nth-child(odd):nth-last-child(2) { border-bottom: 0; }
+}

@@ -1,0 +1,26 @@
+# Dependensi & build
+node_modules/
+.nuxt/
+.output/
+.nitro/
+.cache/
+dist/
+.vercel/
+
+# Secret & env lokal — JANGAN di-commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Hasil test/debug yang dapat memuat data pribadi
+test-results/
+playwright-report/
+blob-report/
+coverage/
+reports/*.local.*
+*.log
+
+# Laporan lokal yang dihasilkan otomatis oleh tes (tidak dipakai aplikasi)
+reports/
